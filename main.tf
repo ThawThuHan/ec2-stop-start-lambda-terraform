@@ -1,13 +1,3 @@
-resource "aws_instance" "web" {
-  count         = var.instance_count
-  ami           = "ami-04b70fa74e45c3917"
-  instance_type = "t3.micro"
-
-  tags = {
-    Name = "HelloWorld ${count.index}"
-  }
-}
-
 resource "aws_iam_role" "lambda_execution_role" {
   name = "lambda_execution_role"
   assume_role_policy = jsonencode(
@@ -51,7 +41,7 @@ resource "aws_lambda_function" "stop_ec2" {
   source_code_hash = filebase64sha256("lambda_functions/ec2_stop.zip")
   environment {
     variables = {
-      INSTANCE_IDS = join(",", aws_instance.web[*].id)
+      INSTANCE_IDS = join(",", var.instance_ids)
     }
   }
 }
@@ -66,7 +56,7 @@ resource "aws_lambda_function" "start_ec2" {
   source_code_hash = filebase64sha256("lambda_functions/ec2_start.zip")
   environment {
     variables = {
-      INSTANCE_IDS = join(",", aws_instance.web[*].id)
+      INSTANCE_IDS = join(",", var.instance_ids)
     }
   }
 }

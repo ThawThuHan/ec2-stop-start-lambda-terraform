@@ -1,4 +1,3 @@
-variable "instance_count" {
-  default = 3
-  type    = number
+variable "instance_ids" {
+  type = set(string)
 }
