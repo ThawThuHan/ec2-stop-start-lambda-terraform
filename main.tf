@@ -32,7 +32,7 @@ resource "aws_iam_role" "lambda_execution_role" {
 }
 
 resource "aws_lambda_function" "stop_ec2" {
-  filename         = "lambda_functions/ec2_stop.zip" # Path to your zipped Lambda function code
+  filename         = "${path.module}/lambda_functions/ec2_stop.zip" # Path to your zipped Lambda function code
   function_name    = "StopEC2Instances"
   role             = aws_iam_role.lambda_execution_role.arn
   handler          = "ec2_stop.lambda_handler"
@@ -47,7 +47,7 @@ resource "aws_lambda_function" "stop_ec2" {
 }
 
 resource "aws_lambda_function" "start_ec2" {
-  filename         = "lambda_functions/ec2_start.zip" # Path to your zipped Lambda function code
+  filename         = "${path.module}/lambda_functions/ec2_start.zip" # Path to your zipped Lambda function code
   function_name    = "StartEC2Instances"
   role             = aws_iam_role.lambda_execution_role.arn
   handler          = "ec2_start.lambda_handler"
